@@ -4,20 +4,19 @@ import logo from './logo.svg';
 export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Welcmoe to the exclusive Guest List</h1>
+      <form>
+        <div>
+          <label> First name</label>
+          <input type="text" />
+
+          <label> Last name</label>
+          <input type="text" />
+
+          <label> First name</label>
+          <input type="text" />
+        </div>
+      </form>
     </div>
   );
 }
