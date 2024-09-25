@@ -1,11 +1,16 @@
 # React Guest List project
 
+## Create a variable to hold guests
+
+[ ] Create an empty Array of Objects
+
 ## Creation of users
 
 - Create two text input fields
 - When a user clicks enter a new user should be created
 - create a state for attending and set the default to false
 - when creating new users/guests, return a div that contains data-test-id="guest"
+- create checkbox input
 
 ## Deletion of users
 
