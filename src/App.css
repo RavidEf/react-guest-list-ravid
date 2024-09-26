@@ -2,6 +2,7 @@
   text-align: center;
   background-color: rgb(196, 255, 235);
   height: 100vh;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 form div {
@@ -10,4 +11,19 @@ form div {
   width: 600px;
   align-items: center;
   justify-content: center;
+}
+
+.guestContainer {
+  display: grid;
+  max-width: 950px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 10px;
+  padding: 0;
+}
+
+.guestBlock {
+  border: 5px solid rgb(81, 79, 79);
+  height: 150px;
+  border-radius: 20px;
 }

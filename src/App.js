@@ -36,7 +36,7 @@ export default function App() {
               setGuestFName(event.currentTarget.value);
             }}
           />
-          <hr />
+          <br />
 
           <label> Last name</label>
           <input
@@ -45,7 +45,7 @@ export default function App() {
               setGuestLName(event.currentTarget.value);
             }}
           />
-          <hr />
+          <br />
 
           <label> Attending?</label>
           <input
@@ -55,7 +55,6 @@ export default function App() {
               setAttending(event.currentTarget.checked);
             }}
           />
-
           <button
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
@@ -67,15 +66,16 @@ export default function App() {
           </button>
         </form>
       </div>
-      <div>
+      <div className="guestContainer">
         {guests.map((guest) => {
           return (
-            <div key={`guest-${guest.id}`}>
+            <div key={`guest-${guest.id}`} className="guestBlock">
               <h2>
                 {guest.firstName} {guest.lastName}
               </h2>
 
-              <p>guest id: {guest.id}</p>
+              <p>guest number: {guest.id}</p>
+              <p>guest attending? {JSON.stringify(guest.attending)}</p>
             </div>
           );
         })}
