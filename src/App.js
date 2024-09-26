@@ -19,6 +19,13 @@ export default function App() {
     ]);
   }
 
+  function deleteGuests() {
+    const newGuests = [...guests];
+    newGuests.pop();
+    setGuests(newGuests);
+  }
+  //console.log(guests);
+
   return (
     <main className="App">
       <div>
@@ -26,23 +33,30 @@ export default function App() {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            createNewGuests();
+            setGuestLName('');
+            setGuestFName('');
           }}
         >
-          <label> First name</label>
+          <label htmlFor="first_name"> First name</label>
           <input
+            id="first_name"
             value={guestFName}
             onChange={(event) => {
               setGuestFName(event.currentTarget.value);
+              event.currentTarget.value = '';
             }}
           />
           <br />
 
-          <label> Last name</label>
+          <label htmlFor="last_name"> Last name</label>
           <input
+            id="last_name"
             value={guestLName}
             onChange={(event) => {
               setGuestLName(event.currentTarget.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') createNewGuests();
             }}
           />
           <br />
@@ -55,18 +69,11 @@ export default function App() {
               setAttending(event.currentTarget.checked);
             }}
           />
-          <button
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                createNewGuests();
-              }
-            }}
-          >
-            Add guest
-          </button>
+          <button>Add guest</button>
+          <button onClick={deleteGuests}>Delete the last guest</button>
         </form>
       </div>
-      <div className="guestContainer">
+      <div className="guestContainer" data-test-id="guest">
         {guests.map((guest) => {
           return (
             <div key={`guest-${guest.id}`} className="guestBlock">

@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
 .App {
   text-align: center;
   background-color: rgb(196, 255, 235);
   height: 100vh;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Manrope', Courier, monospace;
 }
 
 form div {
@@ -26,4 +28,8 @@ form div {
   border: 5px solid rgb(81, 79, 79);
   height: 150px;
   border-radius: 20px;
+}
+
+button {
+  margin: 5px;
 }
