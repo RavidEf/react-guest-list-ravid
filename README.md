@@ -2,7 +2,7 @@
 
 ## Create a variable to hold guests
 
-[ ] Create an empty Array of Objects
+[-] Create an empty Array of Objects
 
 ## Creation of users
 
