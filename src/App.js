@@ -63,6 +63,7 @@ export default function App() {
 
           <label> Attending?</label>
           <input
+            aria-label="attending"
             type="checkbox"
             checked={attending}
             onChange={(event) => {
