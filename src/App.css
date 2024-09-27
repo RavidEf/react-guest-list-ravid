@@ -2,8 +2,7 @@
 
 .App {
   text-align: center;
-  background-color: rgb(196, 255, 235);
-  height: 100vh;
+
   font-family: 'Manrope', Courier, monospace;
 }
 
@@ -32,4 +31,11 @@ form div {
 
 button {
   margin: 5px;
+  background-color: rgb(190, 190, 247);
+  border-radius: 5px;
+  border: 2px solid rgb(178, 178, 178);
+}
+
+button:hover {
+  background-color: rgb(127, 127, 243);
 }

@@ -5,47 +5,45 @@ export default function App() {
   const [guests, setGuests] = useState([]);
   const [guestFName, setGuestFName] = useState([]);
   const [guestLName, setGuestLName] = useState([]);
-  const [attending, setAttending] = useState(false);
+  const [isAttending, setIsAttending] = useState(false);
 
-  const baseUrl = 'http://localhost:3002';
+  const baseUrl = 'http://localhost:4000';
 
-  useEffect(() => {
-    async function postGuests() {
-      const response = await fetch(`${baseUrl}/guests`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: function createNewGuests() {
-          setGuests([
-            ...guests,
-            {
-              firstName: guestFName,
-              lastName: guestLName,
-              id: guests.length > 0 ? guests[guests.length - 1].id + 1 : 1,
-              attending: attending,
-            },
-          ]);
-        },
-      });
-      const createdGuest = await response.json();
-
-      postGuests().catch((error) => {
-        console.log(error);
-      });
-    }
-  }, [guests]);
+  async function postGuests() {
+    const response = await fetch(`${baseUrl}/guests`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstName: guestFName,
+        lastName: guestLName,
+        attending: isAttending,
+      }),
+    }).catch((error) => {
+      console.log(error);
+    });
+    const createdGuest = await response.json();
+    console.log(createdGuest);
+  }
 
   useEffect(() => {
     async function fetchGuests() {
       const response = await fetch(`${baseUrl}/guests`);
       const allGuests = await response.json();
-      console.log(allGuests);
+      setGuests(allGuests);
     }
     fetchGuests().catch((error) => {
       console.log(error);
     });
   }, []);
+
+  async function deleteGuestim() {
+    const response = await fetch(`${baseUrl}/guests/24`, {
+      method: 'DELETE',
+    });
+    const deletedGuest = await response.json();
+  }
 
   function createNewGuests() {
     setGuests([
@@ -54,7 +52,7 @@ export default function App() {
         firstName: guestFName,
         lastName: guestLName,
         id: guests.length > 0 ? guests[guests.length - 1].id + 1 : 1,
-        attending: attending,
+        isAttending: isAttending,
       },
     ]);
   }
@@ -65,24 +63,26 @@ export default function App() {
     setGuests(newGuests);
   }
 
+  async function handelSubmit(event) {
+    event.preventDefault();
+    await postGuests();
+    setGuestLName('');
+    setGuestFName('');
+    setIsAttending(false);
+  }
+
   return (
     <main className="App">
       <div>
         <h1>Welcmoe to the exclusive Guest List</h1>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            setGuestLName('');
-            setGuestFName('');
-          }}
-        >
+        <h4>Enter a guest name and press Enter on the last input field</h4>
+        <form onSubmit={handelSubmit}>
           <label htmlFor="first_name"> First name</label>
           <input
             id="first_name"
             value={guestFName}
             onChange={(event) => {
               setGuestFName(event.currentTarget.value);
-              event.currentTarget.value = '';
             }}
           />
           <br />
@@ -95,23 +95,26 @@ export default function App() {
               setGuestLName(event.currentTarget.value);
             }}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') createNewGuests();
+              if (e.key === 'Enter') {
+                createNewGuests();
+              }
             }}
           />
           <br />
 
-          <label> Attending?</label>
+          <label htmlFor="is_attending"> Attending?</label>
           <input
+            id="is_attending"
             aria-label="attending "
             type="checkbox"
-            checked={attending}
+            checked={isAttending}
             onChange={(event) => {
-              setAttending(event.currentTarget.checked);
+              setIsAttending(event.currentTarget.checked);
             }}
           />
-          <button>Add guest</button>
-          <button onClick={deleteGuests}>Delete the last guest</button>
+          <button>Create User</button>
         </form>
+        <button onClick={deleteGuests}>Delete the last guest</button>
       </div>
       <div className="guestContainer" data-test-id="guest">
         {guests.map((guest) => {
@@ -122,7 +125,7 @@ export default function App() {
               </h2>
 
               <p>guest number: {guest.id}</p>
-              <p>guest attending? {JSON.stringify(guest.attending)}</p>
+              <p>guest attending? {JSON.stringify(guest.isAttending)}</p>
             </div>
           );
         })}
