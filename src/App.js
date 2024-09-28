@@ -9,6 +9,8 @@ export default function App() {
 
   const baseUrl = 'http://localhost:4000';
 
+  // POST Create users
+
   async function postGuests() {
     const response = await fetch(`${baseUrl}/guests`, {
       method: 'POST',
@@ -24,25 +26,28 @@ export default function App() {
       console.log(error);
     });
     const createdGuest = await response.json();
-    console.log(createdGuest);
+    setGuests([...guests, createdGuest]);
   }
 
+  // Show users GET
   useEffect(() => {
     async function fetchGuests() {
-      const response = await fetch(`${baseUrl}/guests`);
+      const response = await fetch(`${baseUrl}/guests/`);
       const allGuests = await response.json();
       setGuests(allGuests);
     }
     fetchGuests().catch((error) => {
       console.log(error);
     });
-  }, []);
+  }, [guests, guestFName, guestLName, isAttending]);
 
-  async function deleteGuestim() {
-    const response = await fetch(`${baseUrl}/guests/24`, {
+  // DELETE !!
+  async function deleteGuestim(id) {
+    const response = await fetch(`${baseUrl}/guests/${id}`, {
       method: 'DELETE',
     });
     const deletedGuest = await response.json();
+    setGuests(guests.filter((guest) => guest.id !== id));
   }
 
   function createNewGuests() {
@@ -57,18 +62,11 @@ export default function App() {
     ]);
   }
 
-  function deleteGuests() {
-    const newGuests = [...guests];
-    newGuests.pop();
-    setGuests(newGuests);
-  }
-
   async function handelSubmit(event) {
     event.preventDefault();
     await postGuests();
     setGuestLName('');
     setGuestFName('');
-    setIsAttending(false);
   }
 
   return (
@@ -102,19 +100,8 @@ export default function App() {
           />
           <br />
 
-          <label htmlFor="is_attending"> Attending?</label>
-          <input
-            id="is_attending"
-            aria-label="attending "
-            type="checkbox"
-            checked={isAttending}
-            onChange={(event) => {
-              setIsAttending(event.currentTarget.checked);
-            }}
-          />
           <button>Create User</button>
         </form>
-        <button onClick={deleteGuests}>Delete the last guest</button>
       </div>
       <div className="guestContainer" data-test-id="guest">
         {guests.map((guest) => {
@@ -125,7 +112,19 @@ export default function App() {
               </h2>
 
               <p>guest number: {guest.id}</p>
-              <p>guest attending? {JSON.stringify(guest.isAttending)}</p>
+              <label htmlFor={`is_attending_${guest.id}`}> Attending?</label>
+              <input
+                id={`is_attending_${guest.id}`}
+                aria-label="attending"
+                type="checkbox"
+                checked={guest.isAttending}
+                onChange={(event) => {
+                  setIsAttending(event.currentTarget.checked);
+                }}
+              />
+              <button onClick={() => deleteGuestim(guest.id)}>
+                Delete guest
+              </button>
             </div>
           );
         })}
