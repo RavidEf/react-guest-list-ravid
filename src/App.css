@@ -44,31 +44,19 @@ label {
   border-radius: 20px;
 }
 
-form button {
-  margin: 5px;
-  background-color: rgb(190, 190, 247);
-  border-radius: 5px;
-  border: 2px solid rgb(178, 178, 178);
-  font-family: 'Manrope', Courier, monospace;
-}
-
-form button:hover {
-  background-color: rgb(127, 127, 243);
-}
-
 .delete {
   margin: 5px;
   background-color: rgb(252, 55, 111);
   border-radius: 5px;
   border: 2px solid rgb(12, 12, 12);
   font-family: 'Manrope', Courier, monospace;
-  transition: 2s;
+  transition: 0.5s;
 }
 
 .delete:hover {
   background-color: rgb(246, 137, 168);
-  font-size: 1rem;
-  transition: 1s;
+  font-size: 0.9rem;
+  transition: 0.4s;
 }
 
 .loading-section {
