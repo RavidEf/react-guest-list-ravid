@@ -50,7 +50,7 @@ export default function App() {
         setTimeout(() => {
           setLoading(false);
           setGuests(allGuests);
-        }, '250');
+        }, 250);
       } catch (error) {
         console.error('Error fetching guests:', error);
       }
