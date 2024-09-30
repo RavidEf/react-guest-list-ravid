@@ -5,7 +5,6 @@ export default function App() {
   const [guests, setGuests] = useState([]);
   const [guestFName, setGuestFName] = useState([]);
   const [guestLName, setGuestLName] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   const baseUrl = 'http://localhost:4000';
@@ -26,6 +25,7 @@ export default function App() {
     }).catch((error) => {
       console.log(error);
     });
+
     const createdGuest = await response.json();
     setGuests([...guests, createdGuest]);
   }
@@ -44,7 +44,7 @@ export default function App() {
     fetchGuests().catch((error) => {
       console.log(error);
     });
-  }, []);
+  }, [guests]);
 
   // DELETE !!
   async function deleteGuestim(id) {
@@ -68,7 +68,7 @@ export default function App() {
       body: JSON.stringify({ attending: newAttendingStat }),
     });
     const updatedGuest = await response.json();
-    // FIX THIS CODE!!
+    // Map over the guests list and update the attending values, if it was changed for the user
     setGuests(
       guests.map((guest) =>
         guest.id === id
@@ -112,6 +112,7 @@ export default function App() {
             onChange={(event) => {
               setGuestFName(event.currentTarget.value);
             }}
+            disabled={loading}
           />
           <br />
 
@@ -128,6 +129,7 @@ export default function App() {
                 await handelSubmit(e);
               }
             }}
+            disabled={loading}
           />
           <br />
         </form>
