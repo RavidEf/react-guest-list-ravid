@@ -156,14 +156,17 @@ export default function App() {
             <div className="loader" />
           </div>
         ) : (
-          <div className="guestContainer" data-test-id="guest">
+          <div className="guestContainer">
             {guests.map((guest) => {
               return (
-                <div key={`guest-${guest.id}`} className="guestBlock">
+                <div
+                  key={`guest-${guest.id}`}
+                  className="guestBlock"
+                  data-test-id="guest"
+                >
                   <h2>
                     {guest.firstName} {guest.lastName}
                   </h2>
-
                   <p>guest number: {guest.id}</p>
                   <label htmlFor="is_attending"> Attending?</label>
                   <input
