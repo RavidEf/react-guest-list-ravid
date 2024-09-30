@@ -7,7 +7,7 @@ export default function App() {
   const [guestLName, setGuestLName] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const baseUrl = 'http://localhost:4000';
+  const baseUrl = 'http://lsvqc8-4000.csb.app';
 
   // POST Create users
 
@@ -30,7 +30,7 @@ export default function App() {
     setGuests([...guests, createdGuest]);
   }
 
-  // Show users GET
+  // Show users GET with UseEffect only on page load
   useEffect(() => {
     async function fetchGuests() {
       const response = await fetch(`${baseUrl}/guests/`);
