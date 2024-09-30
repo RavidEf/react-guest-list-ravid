@@ -44,7 +44,7 @@ export default function App() {
     fetchGuests().catch((error) => {
       console.log(error);
     });
-  }, [guests]);
+  }, []);
 
   // DELETE !!
   async function deleteGuestim(id) {
