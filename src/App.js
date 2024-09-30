@@ -39,7 +39,7 @@ export default function App() {
       setTimeout(() => {
         setLoading(false);
         setGuests(allGuests);
-      }, '2000');
+      }, '250');
     }
     fetchGuests().catch((error) => {
       console.log(error);
