@@ -7,7 +7,7 @@ export default function App() {
   const [guestLName, setGuestLName] = useState('');
   const [loading, setLoading] = useState(true);
 
-  const baseUrl = 'http://lsvqc8-4000.csb.app';
+  const baseUrl = 'https://lsvqc8-4000.csb.app';
 
   // POST Create users
 
@@ -21,8 +21,6 @@ export default function App() {
         body: JSON.stringify({
           firstName: guestFName,
           lastName: guestLName,
-          attending: false,
-          id: guests.length > 0 ? guests[guests.length - 1].id + 1 : 1,
         }),
       });
       if (!response.ok) {
