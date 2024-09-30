@@ -120,9 +120,9 @@ export default function App() {
             onChange={(event) => {
               setGuestLName(event.currentTarget.value);
             }}
-            onKeyDown={(e) => {
+            onKeyDown={async (e) => {
               if (e.key === 'Enter') {
-                createNewGuests();
+                await handelSubmit(e);
               }
             }}
           />
