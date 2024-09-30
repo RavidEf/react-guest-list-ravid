@@ -39,7 +39,7 @@ export default function App() {
       setTimeout(() => {
         setLoading(false);
         setGuests(allGuests);
-      }, '3000');
+      }, '2000');
     }
     fetchGuests().catch((error) => {
       console.log(error);
@@ -66,8 +66,13 @@ export default function App() {
     });
     const updatedGuest = await response.json();
     // FIX THIS CODE!!
-    setIsAttending();
-    setGuests([...guests, updatedGuest]);
+    setGuests(
+      guests.map((guest) =>
+        guest.id === id
+          ? { ...guest, attending: updatedGuest.attending }
+          : guest,
+      ),
+    );
   }
 
   // Create new guests in the UI
@@ -150,10 +155,9 @@ export default function App() {
                     id="is_attending"
                     aria-label="attending"
                     type="checkbox"
-                    checked={guest.isAttending}
+                    checked={guest.attending}
                     onChange={async (event) => {
-                      setIsAttending(event.currentTarget.checked);
-                      await updateGuests();
+                      await updateGuests(guest.id, event.currentTarget.checked);
                     }}
                   />
                   <button
