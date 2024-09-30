@@ -6,12 +6,17 @@
   font-family: 'Manrope', Courier, monospace;
 }
 
+form {
+  margin-bottom: 2rem;
+}
+
 form div {
   display: flex;
   flex-direction: column;
   width: 600px;
   align-items: center;
   justify-content: center;
+  margin-bottom: 2rem;
 }
 
 input {

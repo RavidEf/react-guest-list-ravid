@@ -5,7 +5,7 @@ export default function App() {
   const [guests, setGuests] = useState([]);
   const [guestFName, setGuestFName] = useState([]);
   const [guestLName, setGuestLName] = useState([]);
-  const [isAttending, setIsAttending] = useState(false);
+
   const [loading, setLoading] = useState(true);
 
   const baseUrl = 'http://localhost:4000';
@@ -52,7 +52,10 @@ export default function App() {
       method: 'DELETE',
     });
     const deletedGuest = await response.json();
-    setGuests(guests.filter((guest) => guest.id !== id));
+    setGuests(
+      guests.filter((guest) => guest.id !== id),
+      deletedGuest,
+    );
   }
 
   // Update API function
@@ -76,17 +79,17 @@ export default function App() {
   }
 
   // Create new guests in the UI
-  function createNewGuests() {
+  /*  function createNewGuests() {
     setGuests([
       ...guests,
       {
         firstName: guestFName,
         lastName: guestLName,
         id: guests.length > 0 ? guests[guests.length - 1].id + 1 : 1,
-        attending: isAttending,
+        attending: false,
       },
     ]);
-  }
+  } */
 
   async function handelSubmit(event) {
     event.preventDefault();
@@ -127,8 +130,6 @@ export default function App() {
             }}
           />
           <br />
-
-          <button id="create">Create guest</button>
         </form>
       </div>
 
@@ -137,7 +138,7 @@ export default function App() {
           <div>
             <br />
             <br />
-            <h1>Loading the Guest List...</h1>
+            <h1>Loading...</h1>
             <div className="loader" />
           </div>
         ) : (
