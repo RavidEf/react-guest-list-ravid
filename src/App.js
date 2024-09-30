@@ -21,7 +21,7 @@ export default function App() {
       body: JSON.stringify({
         firstName: guestFName,
         lastName: guestLName,
-        attending: isAttending,
+        attending: false,
       }),
     }).catch((error) => {
       console.log(error);
@@ -35,8 +35,11 @@ export default function App() {
     async function fetchGuests() {
       const response = await fetch(`${baseUrl}/guests/`);
       const allGuests = await response.json();
-      setGuests(allGuests);
-      setLoading(false);
+
+      setTimeout(() => {
+        setLoading(false);
+        setGuests(allGuests);
+      }, '3000');
     }
     fetchGuests().catch((error) => {
       console.log(error);
@@ -53,15 +56,17 @@ export default function App() {
   }
 
   // Update API function
-  async function updateGuests({ id }) {
+  async function updateGuests(id, newAttendingStat) {
     const response = await fetch(`${baseUrl}/guests/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ attending: isAttending }),
+      body: JSON.stringify({ attending: newAttendingStat }),
     });
     const updatedGuest = await response.json();
+    // FIX THIS CODE!!
+    setIsAttending();
     setGuests([...guests, updatedGuest]);
   }
 
@@ -73,7 +78,7 @@ export default function App() {
         firstName: guestFName,
         lastName: guestLName,
         id: guests.length > 0 ? guests[guests.length - 1].id + 1 : 1,
-        isAttending: false,
+        attending: isAttending,
       },
     ]);
   }
@@ -94,6 +99,7 @@ export default function App() {
           <label htmlFor="first_name"> First name</label>
           <input
             id="first_name"
+            required
             value={guestFName}
             onChange={(event) => {
               setGuestFName(event.currentTarget.value);
@@ -104,6 +110,7 @@ export default function App() {
           <label htmlFor="last_name"> Last name</label>
           <input
             id="last_name"
+            required
             value={guestLName}
             onChange={(event) => {
               setGuestLName(event.currentTarget.value);
@@ -116,16 +123,17 @@ export default function App() {
           />
           <br />
 
-          <button id="create">Create User</button>
+          <button id="create">Create guest</button>
         </form>
       </div>
 
-      <section>
+      <section className="loading-section">
         {loading ? (
           <div>
             <br />
             <br />
             <h1>Loading the Guest List...</h1>
+            <div className="loader" />
           </div>
         ) : (
           <div className="guestContainer" data-test-id="guest">
@@ -145,7 +153,7 @@ export default function App() {
                     checked={guest.isAttending}
                     onChange={async (event) => {
                       setIsAttending(event.currentTarget.checked);
-                      await updateGuests(event.currentTarget.checked);
+                      await updateGuests();
                     }}
                   />
                   <button
