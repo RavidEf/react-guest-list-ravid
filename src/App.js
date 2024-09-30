@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 
 export default function App() {
   const [guests, setGuests] = useState([]);
-  const [guestFName, setGuestFName] = useState([]);
-  const [guestLName, setGuestLName] = useState([]);
+  const [guestFName, setGuestFName] = useState('');
+  const [guestLName, setGuestLName] = useState('');
   const [loading, setLoading] = useState(true);
 
   const baseUrl = 'http://lsvqc8-4000.csb.app';
@@ -12,38 +12,52 @@ export default function App() {
   // POST Create users
 
   async function postGuests() {
-    const response = await fetch(`${baseUrl}/guests`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstName: guestFName,
-        lastName: guestLName,
-        attending: false,
-      }),
-    }).catch((error) => {
-      console.log(error);
-    });
+    try {
+      const response = await fetch(`${baseUrl}/guests/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: guestFName,
+          lastName: guestLName,
+          attending: false,
+          id: guests.length > 0 ? guests[guests.length - 1].id + 1 : 1,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to post guest: ${response.status}`);
+      }
 
-    const createdGuest = await response.json();
-    setGuests([...guests, createdGuest]);
+      const createdGuest = await response.json();
+      setGuests([...guests, createdGuest]);
+    } catch (error) {
+      console.error('Error posting guest:', error);
+    }
   }
 
   // Show users GET with UseEffect only on page load
+  // user Timeout function to show the loading screen
   useEffect(() => {
     async function fetchGuests() {
-      const response = await fetch(`${baseUrl}/guests/`);
-      const allGuests = await response.json();
+      try {
+        const response = await fetch(`${baseUrl}/guests/`);
 
-      setTimeout(() => {
-        setLoading(false);
-        setGuests(allGuests);
-      }, '250');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch guests: ${response.status}`);
+        }
+
+        const allGuests = await response.json();
+
+        setTimeout(() => {
+          setLoading(false);
+          setGuests(allGuests);
+        }, '250');
+      } catch (error) {
+        console.error('Error fetching guests:', error);
+      }
     }
-    fetchGuests().catch((error) => {
-      console.log(error);
-    });
+    fetchGuests();
   }, []);
 
   // DELETE !!
