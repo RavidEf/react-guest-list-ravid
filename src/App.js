@@ -38,24 +38,22 @@ export default function App() {
   // user Timeout function to show the loading screen
   useEffect(() => {
     async function fetchGuests() {
-      try {
-        const response = await fetch(`${baseUrl}/guests/`);
+      const response = await fetch(`${baseUrl}/guests/`);
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch guests: ${response.status}`);
-        }
-
-        const allGuests = await response.json();
-
-        setTimeout(() => {
-          setLoading(false);
-          setGuests(allGuests);
-        }, 250);
-      } catch (error) {
-        console.error('Error fetching guests:', error);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch guests: ${response.status}`);
       }
+
+      const allGuests = await response.json();
+
+      setTimeout(() => {
+        setLoading(false);
+        setGuests(allGuests);
+      }, 250);
     }
-    fetchGuests();
+    fetchGuests().catch((error) => {
+      console.error('Error fetching guests:', error);
+    });
   }, []);
 
   // DELETE !!
