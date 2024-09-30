@@ -179,7 +179,7 @@ export default function App() {
                     className="delete"
                     onClick={() => deleteGuestim(guest.id)}
                   >
-                    Delete guest
+                    Remove guest
                   </button>
                 </div>
               );
